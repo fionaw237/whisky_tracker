@@ -32,9 +32,11 @@ public class WhiskyTrackerApplicationTests {
 //		List<Whisky> whiskiesByYear = whiskyRepository.getWhiskiesByYear(1990);
 //		List<Distillery> distilleriesByRegion = distilleryRepository.getDistilleryByRegion("Highland");
 //		List<Whisky> foundWhiskies = whiskyRepository.getWhiskiesByRegion("Lowland");
-		Distillery distillery1 = new Distillery("Glendronach", "Highland");
+//		Distillery distillery1 = new Distillery("Glendronach", "Highland");
 
-		List<Whisky> whiskiesByDistillery = whiskyRepository.getWhiskyFromDistillery(distillery1);
+//		List<Whisky> whiskiesByDistillery = whiskyRepository.getWhiskyFromDistilleryOfAge(1L, 15);
+		List<Distillery> distilleriesWithAge = distilleryRepository.getDistilleryWithWhiskiesOfAge(12);
+
 	}
 
 }

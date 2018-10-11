@@ -41,47 +41,44 @@ public class WhiskyRepositoryImpl implements WhiskyRepositoryCustom {
 
     // SQL: select * from whiskies where distillery_id =
     // (select id from distilleries where name = requestedName)
-//    @Transactional
-//    public List<Whisky> getWhiskyFromDistillery(Distillery distillery){
-//        List<Whisky> whiskies = null;
-//        Session session = entityManager.unwrap(Session.class);
-//
-//        try {
-//            Criteria cr = session.createCriteria(Whisky.class);
-//            cr.add(Restrictions.eq("distillery", distillery));
-//            whiskies = cr.list();
-//        } catch (HibernateException e) {
-//            e.printStackTrace();
-//        } finally {
-//            session.close();
-//        }
-//
-//        return whiskies;
-//    }
+    @Transactional
+    public List<Whisky> getWhiskyFromDistilleryOfAge(Long distilleryId, int age){
+        List<Whisky> whiskies = null;
+        Session session = entityManager.unwrap(Session.class);
+
+        try {
+            Criteria cr = session.createCriteria(Whisky.class);
+            cr.createAlias("distillery", "dist");
+            cr.add(Restrictions.eq("dist.id", distilleryId));
+            cr.add(Restrictions.eq("age", age));
+            whiskies = cr.list();
+        } catch (HibernateException e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+
+        return whiskies;
+    }
 
     // SQL: select * from whiskies where distillery_id =
     // (select id from distilleries where region = requestedRegion)
-//    @Transactional
-//    public List<Whisky> getWhiskiesByRegion(String region){
-//        List<Whisky> whiskies = null;
-//        Session session = entityManager.unwrap(Session.class);
-//
-//        try {
-//            Criteria cr = session.createCriteria(Whisky.class);
-//            cr.add(Restrictions.eq("distillery", distilleryRepository.getDistilleryByRegion(region)));
-//            cr.createAlias("whiskies", "whisky" );
-//            cr.add(Restrictions.eq("id", whisky.get))
-//            cr1.add(Restrictions.eq("region", region));
-//            List<Distillery> foundDistilleries = cr1.list();
-//            Criteria cr2 = session.createCriteria(Whisky.class);
-//            cr2.createAlias("distillery");
-//            whiskies = cr.list();
-//        } catch (HibernateException e) {
-//            e.printStackTrace();
-//        } finally {
-//            session.close();
-//        }
-//        return whiskies
-//
-//    }
+    @Transactional
+    public List<Whisky> getWhiskiesByRegion(String region){
+        List<Whisky> whiskies = null;
+        Session session = entityManager.unwrap(Session.class);
+
+        try {
+            Criteria cr = session.createCriteria(Whisky.class);
+            cr.createAlias("distillery", "distillery" );
+            // first part is property inside class and second is alias to create
+            cr.add(Restrictions.eq("distillery.region", region));
+            whiskies = cr.list();
+        } catch (HibernateException e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return whiskies;
+    }
 }
